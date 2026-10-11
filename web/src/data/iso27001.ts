@@ -1,0 +1,86 @@
+import type { AiRecommendation, ExistingControl, AssessmentQuestion } from "@/data/circularControlsAndQuestions";
+
+export const ISO_27001_RECOMMENDATIONS: AiRecommendation[] = [
+  // Clauses 4-10 (ISMS Requirements)
+  { id: "ISO27-REC-4.1", title: "Organization and its Context", description: "Identify internal and external issues relevant to the ISMS (Clause 4.1).", relevance: "High", category: "Strategy" },
+  { id: "ISO27-REC-4.2", title: "Interested Parties and Requirements", description: "Identify interested parties relevant to the ISMS and their security requirements (Clause 4.2).", relevance: "High", category: "Strategy" },
+  { id: "ISO27-REC-4.3", title: "Scope of the ISMS", description: "Define and document the scope of the Information Security Management System (Clause 4.3).", relevance: "High", category: "Governance" },
+  { id: "ISO27-REC-4.4", title: "ISMS Processes and Interactions", description: "Establish, implement, maintain and continually improve the ISMS processes and their interactions (Clause 4.4).", relevance: "High", category: "Governance" },
+  { id: "ISO27-REC-5.1", title: "Leadership and Commitment", description: "Top management must demonstrate leadership and commitment to the ISMS (Clause 5.1).", relevance: "High", category: "Leadership" },
+  { id: "ISO27-REC-5.2", title: "Information Security Policy", description: "Establish and maintain an approved information security policy (Clause 5.2).", relevance: "High", category: "Leadership" },
+  { id: "ISO27-REC-5.3", title: "Organizational Roles and Responsibilities", description: "Ensure that the responsibilities and authorities for roles relevant to information security are assigned and communicated (Clause 5.3).", relevance: "High", category: "Leadership" },
+  { id: "ISO27-REC-6.1", title: "Information Security Risk Assessment", description: "Establish and apply an information security risk assessment process (Clause 6.1.2).", relevance: "High", category: "Planning" },
+  { id: "ISO27-REC-6.1.3", title: "Statement of Applicability (SoA)", description: "Produce a Statement of Applicability (SoA) containing the necessary controls (Clause 6.1.3).", relevance: "High", category: "Planning" },
+  { id: "ISO27-REC-6.2", title: "Information Security Objectives", description: "Establish measurable information security objectives at relevant functions (Clause 6.2).", relevance: "High", category: "Planning" },
+  { id: "ISO27-REC-6.3", title: "Planning of Changes", description: "Determine the need for changes to the ISMS and carry them out in a planned manner (Clause 6.3).", relevance: "Medium", category: "Planning" },
+  { id: "ISO27-REC-7.2", title: "Competence", description: "Ensure persons doing work under the organization's control are competent on the basis of education/training (Clause 7.2).", relevance: "High", category: "Support" },
+  { id: "ISO27-REC-7.3", title: "Awareness", description: "Ensure personnel are aware of the information security policy and their contribution to ISMS effectiveness (Clause 7.3).", relevance: "High", category: "Support" },
+  { id: "ISO27-REC-7.4", title: "Communication", description: "Determine the internal and external communications relevant to the ISMS, including what, when, and with whom to communicate (Clause 7.4).", relevance: "Medium", category: "Support" },
+  { id: "ISO27-REC-7.5", title: "Documented Information", description: "Ensure the ISMS includes required documented information and implement controls for its creation, update, and use (Clause 7.5).", relevance: "High", category: "Support" },
+  { id: "ISO27-REC-8.1", title: "Operational Planning and Control", description: "Plan, implement and control the processes needed to meet information security requirements and implement risk treatment (Clause 8.1).", relevance: "High", category: "Operations" },
+  { id: "ISO27-REC-8.2", title: "Information Security Risk Assessment (Operational)", description: "Perform information security risk assessments at planned intervals or when significant changes are proposed (Clause 8.2).", relevance: "High", category: "Operations" },
+  { id: "ISO27-REC-8.3", title: "Information Security Risk Treatment", description: "Implement the information security risk treatment plan and retain documented information of the results (Clause 8.3).", relevance: "High", category: "Operations" },
+  { id: "ISO27-REC-9.1", title: "Monitoring, Measurement, Analysis and Evaluation", description: "Evaluate the information security performance and effectiveness of the ISMS (Clause 9.1).", relevance: "High", category: "Performance" },
+  { id: "ISO27-REC-9.2", title: "Internal Audit", description: "Conduct internal audits at planned intervals to ensure ISMS conformity and effectiveness (Clause 9.2).", relevance: "High", category: "Performance" },
+  { id: "ISO27-REC-9.3", title: "Management Review", description: "Review the ISMS at planned intervals to ensure suitability, adequacy, and effectiveness (Clause 9.3).", relevance: "High", category: "Performance" },
+  { id: "ISO27-REC-10.1", title: "Nonconformity and Corrective Action", description: "React to nonconformities and take action to control, correct, and deal with consequences (Clause 10.1).", relevance: "High", category: "Improvement" },
+  { id: "ISO27-REC-10.2", title: "Continual Improvement", description: "Continually improve the suitability, adequacy and effectiveness of the ISMS (Clause 10.2).", relevance: "High", category: "Improvement" },
+
+  // Annex A (2022 Structure - Key High-Risk Sample)
+  { id: "ISO27-REC-A.5.1", title: "Policies for Information Security", description: "Review information security policies at planned intervals or when significant changes occur (A.5.1).", relevance: "High", category: "Organizational" },
+  { id: "ISO27-REC-A.5.15", title: "Asset Management", description: "Maintain an inventory of information and other associated assets with identified owners (A.5.15).", relevance: "High", category: "Organizational" },
+  { id: "ISO27-REC-A.5.23", title: "Security for Use of Cloud Services", description: "Establish and communicate a policy for the acquisition, use, management and exit from cloud services (A.5.23).", relevance: "High", category: "Organizational" },
+  { id: "ISO27-REC-A.5.37", title: "Security in Supplier Relationships", description: "Ensure information security requirements for mitigating risks associated with supplier access to assets are agreed (A.5.37).", relevance: "High", category: "Organizational" },
+  { id: "ISO27-REC-A.6.3", title: "Information Security Awareness and Training", description: "Personnel should receive appropriate awareness, education and training tailored to their roles (A.6.3).", relevance: "High", category: "People" },
+  { id: "ISO27-REC-A.7.x", title: "Physical and Environmental Security", description: "Implement physical security perimeters and entry controls for secure areas (A.7.1-A.7.2).", relevance: "High", category: "Physical" },
+  { id: "ISO27-REC-A.8.1", title: "User Endpoint Devices", description: "Implement security controls for user endpoint devices to manage risks to information (A.8.1).", relevance: "High", category: "Technological" },
+  { id: "ISO27-REC-A.8.2", title: "Privileged Access Rights", description: "Restrict and control the allocation and use of privileged access rights (A.8.2).", relevance: "High", category: "Technological" },
+  { id: "ISO27-REC-A.8.13", title: "Information Backup", description: "Maintain backup copies of information, software and system images and test them regularly (A.8.13).", relevance: "High", category: "Technological" },
+  { id: "ISO27-REC-A.8.14", title: "Redundancy of Processing Facilities", description: "Maintain processing facilities with redundant components to meet availability requirements (A.8.14).", relevance: "Medium", category: "Technological" },
+  { id: "ISO27-REC-A.8.16", title: "Monitoring Activities", description: "Monitor systems for anomalous behavior and evaluate potential security incidents (A.8.16).", relevance: "High", category: "Technological" },
+  { id: "ISO27-REC-A.8.28", title: "Secure Coding", description: "Establish and apply secure coding principles to software development (A.8.28).", relevance: "High", category: "Technological" },
+];
+
+export const ISO_27001_CONTROLS: ExistingControl[] = [
+  { id: "CTRL-ISO27-ISMS", name: "Information Security Management System (ISMS) Framework", framework: "ISO 27001", status: "mapped" },
+  { id: "CTRL-ISO27-SOA", name: "Statement of Applicability (SoA) and Control Mapping", framework: "ISO 27001", status: "mapped" },
+  { id: "CTRL-ISO27-RISK", name: "Information Security Risk Management Process", framework: "ISO 27001", status: "mapped" },
+  { id: "CTRL-ISO27-AUDIT", name: "Internal and External Audit Program", framework: "ISO 27001", status: "mapped" },
+  { id: "CTRL-ISO27-CLOUD", name: "Cloud Security and Third-Party Management Program", framework: "ISO 27001", status: "mapped" },
+  { id: "CTRL-ISO27-BKP", name: "Data Backup, Recovery and Redundancy Systems", framework: "ISO 27001", status: "mapped" },
+  { id: "CTRL-ISO27-MON", name: "Security Logging, Monitoring and Alerting System", framework: "ISO 27001", status: "mapped" },
+  { id: "CTRL-ISO27-IAM", name: "Identity and Access Management (IAM) Framework", framework: "ISO 27001", status: "mapped" },
+  { id: "CTRL-ISO27-VULN", name: "Vulnerability and Patch Management Program", framework: "ISO 27001", status: "mapped" },
+  { id: "CTRL-ISO27-INC", name: "Security Incident Response and Management Process", framework: "ISO 27001", status: "mapped" },
+];
+
+export const ISO_27001_QUESTIONS: AssessmentQuestion[] = [
+  // ISMS Core
+  { id: "Q-ISO27-4.1", title: "Has the organization determined the internal and external issues relevant to its ISMS?", source: "ai" },
+  { id: "Q-ISO27-4.2", title: "Are interested parties relevant to the ISMS and their requirements identified?", source: "ai" },
+  { id: "Q-ISO27-4.3", title: "Is the scope of the ISMS documented, including any exclusions?", source: "ai" },
+  { id: "Q-ISO27-4.4", title: "Are the ISMS processes and their interactions defined and maintained?", source: "ai" },
+  { id: "Q-ISO27-5.1", title: "Does top management demonstrate direct commitment to the ISMS and its effectiveness?", source: "ai" },
+  { id: "Q-ISO27-5.2", title: "Is the information security policy approved by management and communicated?", source: "ai" },
+  { id: "Q-ISO27-5.3", title: "Are responsibilities and authorities for security roles assigned and communicated?", source: "ai" },
+  { id: "Q-ISO27-6.1", title: "Has a formal risk assessment been conducted with results retained as documented information?", source: "ai" },
+  { id: "Q-ISO27-6.1.3", title: "Does the SoA justify both the inclusion and exclusion of Annex A controls?", source: "ai" },
+  { id: "Q-ISO27-6.2", title: "Are measurable security objectives established and monitored?", source: "ai" },
+  { id: "Q-ISO27-7.4", title: "Has the organization defined what, when, and how security communications occur?", source: "ai" },
+  { id: "Q-ISO27-7.5", title: "Is documented information required by the ISMS controlled for creation and update?", source: "ai" },
+  { id: "Q-ISO27-8.1", title: "Does the organization plan and control the processes needed to implement risk treatment?", source: "ai" },
+  { id: "Q-ISO27-8.3", title: "Is there evidence that the risk treatment plan has been implemented successfully?", source: "ai" },
+  { id: "Q-ISO27-9.2", title: "Are independent internal audits conducted at planned intervals?", source: "ai" },
+  { id: "Q-ISO27-9.3", title: "Does top management review the ISMS effectiveness periodically?", source: "ai" },
+  { id: "Q-ISO27-10.2", title: "Is the effectiveness of corrective actions and continual improvement opportunities evaluated?", source: "ai" },
+
+  // Annex A High-Risk Sample
+  { id: "Q-ISO27-A.5.23", title: "Are security requirements for cloud service usage defined and communicated?", source: "ai" },
+  { id: "Q-ISO27-A.5.37", title: "Are security requirements for suppliers agreed upon and documented in contracts?", source: "ai" },
+  { id: "Q-ISO27-A.6.3", title: "Do personnel receive security training tailored to their specific roles and risks?", source: "ai" },
+  { id: "Q-ISO27-A.8.1", title: "Are endpoint devices (laptops, mobile) protected by security controls?", source: "ai" },
+  { id: "Q-ISO27-A.8.13", title: "Are backups performed regularly and restoration tests conducted?", source: "ai" },
+  { id: "Q-ISO27-A.8.14", title: "Are processing facilities designed with redundancy to ensure availability?", source: "ai" },
+  { id: "Q-ISO27-A.8.16", title: "Is monitoring in place to detect anomalous behavior and potential security incidents?", source: "ai" },
+  { id: "Q-ISO27-A.8.28", title: "Are secure coding principles applied during system and software development?", source: "ai" },
+];

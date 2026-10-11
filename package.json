@@ -1,0 +1,31 @@
+{
+  "name": "complianceos-agentic",
+  "private": true,
+  "version": "0.0.0",
+  "license": "BUSL-1.1",
+  "workspaces": [
+    "web",
+    "server",
+    "worker",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=shared & npm run dev --workspace=server & npm run dev --workspace=worker & npm run dev --workspace=web",
+    "build": "npm run build --workspace=shared && npm run build --workspace=server && npm run build --workspace=worker && npm run build --workspace=web",
+    "lint": "npm run lint --workspace=server && npm run lint --workspace=worker && npm run lint --workspace=web",
+    "migrate": "bash scripts/migrate.sh"
+  },
+  "overrides": {
+    "qs": "6.16.0",
+    "tar": "7.5.22",
+    "exceljs": {
+      "uuid": "11.1.1"
+    },
+    "officeparser": {
+      "pdfjs-dist": "6.3.289"
+    }
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}

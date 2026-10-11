@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Preconnect/DNS-Prefetch for Speed -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="apple-touch-icon" href="/icon.svg" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Performance: Preload Critical Font & Icon -->
+  <link rel="preload" href="/icon.svg" as="image" type="image/svg+xml" />
+  <link rel="preload" href="/fonts/Geist/webfonts/Geist[wght].woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/GeistMono/webfonts/GeistMono[wght].woff2" as="font" type="font/woff2" crossorigin />
+
+  <!-- Primary SEO — internal tool behind auth, not a marketing site. Kept
+       minimal on purpose; see public/robots.txt for the indexing policy. -->
+  <title>ComplianceOS — Regulatory Compliance Agent Pipeline</title>
+  <meta name="description"
+    content="An agentic pipeline that traces banking & financial regulation through obligations, applicability, controls, evidence, gaps and remediation." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Open Graph / Twitter — used when this link is shared (e.g. in a message), not for search indexing -->
+  <meta property="og:title" content="ComplianceOS — Regulatory Compliance Agent Pipeline" />
+  <meta property="og:description"
+    content="Regulations → obligations → applicability → controls → evidence → gaps → remediation, traced end to end by a narrow-agent pipeline." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ComplianceOS" />
+  <meta property="og:image" content="/icon.svg" />
+  <meta property="og:image:type" content="image/svg+xml" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="ComplianceOS — Regulatory Compliance Agent Pipeline" />
+  <meta name="twitter:description"
+    content="An agentic pipeline tracing regulation to remediation for banking & financial compliance." />
+  <meta name="twitter:image" content="/icon.svg" />
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ComplianceOS",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "An agentic pipeline for banking & financial regulatory compliance: obligation extraction, applicability filtering, control mapping, gap identification and remediation — with traceability back to source regulatory text."
+  }
+  </script>
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# ========================================================
+# React Router / SPA Fallback (Crucial for Vite/React)
+# --------------------------------------------------------
+# First, redirect direct access of index.html to root
+RewriteRule ^index\.html$ - [L]
+
+# Then, route all non-file and non-directory requests to index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule . /index.html [L]
+
+# ========================================================
+# Custom Error Documents
+# --------------------------------------------------------
+ErrorDocument 403 /index.html
+ErrorDocument 404 /index.html
+ErrorDocument 500 /index.html
+
+# ========================================================
+# Default directory index file
+# --------------------------------------------------------
+DirectoryIndex index.html
+
+# ========================================================
+# Caching rules using mod_expires
+# --------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    
+    # Legacy and Modern Images
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # Web Fonts
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    
+    # Code and Text
+    ExpiresByType text/html "access plus 3 days"
+    ExpiresByType text/xml "access plus 1 week"
+    ExpiresByType text/plain "access plus 1 week"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    
+    # Data and Documents
+    ExpiresByType application/json "access plus 1 week"
+    ExpiresByType application/xml "access plus 1 week"
+    ExpiresByType application/pdf "access plus 1 month"
+</IfModule>
+
+# ========================================================
+# HTTP Headers configuration using mod_headers
+# --------------------------------------------------------
+<IfModule mod_headers.c>
+    # Unset ETag to force relying on Last-Modified and Cache-Control
+    Header unset ETag
+
+    # Merge Cache-Control nicely with mod_expires output
+    Header merge Cache-Control "public, no-transform, must-revalidate"
+    
+    # Security Headers
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+    <Files "robots.txt">
+        Header set Content-Type "text/plain; charset=UTF-8"
+    </Files>
+</IfModule>
+
+# ========================================================
+# Security & Access Controls (Pure Apache 2.4 Syntax)
+# --------------------------------------------------------
+# Block access to hidden files and specific sensitive configurations
+<FilesMatch "(^\.|^env$|composer\.json|package\.json|config\.json|\.(env|bak|config|log|sql)$)">
+    Require all denied
+</FilesMatch>

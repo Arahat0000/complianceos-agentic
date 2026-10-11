@@ -1,0 +1,42 @@
+# Local development services: Postgres and Redis.
+#   docker compose up -d        start both (schema is applied automatically on first start)
+#   docker compose down         stop (data is kept)
+#   docker compose down -v      stop and delete all data (next start re-applies the schema)
+#
+# The app itself runs on the host with `npm run dev`. Credentials here are for local use only.
+services:
+  postgres:
+    image: postgres:16
+    container_name: complianceos-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: compliance_os
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Runs only when the data volume is empty, i.e. on first start.
+      - ./sql/postgres/full_schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d compliance_os"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: complianceos-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
+  redisdata:

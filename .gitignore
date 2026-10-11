@@ -1,0 +1,88 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+jspm_packages/
+
+# Project Outputs
+dist/
+build/
+**/dist/
+**/build/
+*.tsbuildinfo
+.next/
+.nuxt/
+out/
+*.tgz
+*.zip
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+**/logs/
+*otp_logs.txt
+*mail_errors.log
+*mail_errors.txt
+
+# Testing & Coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Environment / Secret Files (Do NOT commit)
+.env
+.env.*
+!.env.example
+!**/.env.example
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# IDEs & Editors
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+.project
+.settings/
+.classpath
+.factorypath
+
+# OS-Specific (Mac & Windows)
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Caches
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+.temp/
+.docusaurus/
+.turbo/
+.claude/
+
+# Workspaces use the single root package-lock.json; a per-package lockfile goes stale and trips Dependabot.
+*/package-lock.json

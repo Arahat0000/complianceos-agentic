@@ -1,0 +1,131 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # pdfjs-dist 6 needs Node >= 22.13
+  NODE_VERSION: 24
+
+jobs:
+  build-and-lint:
+    name: Build and lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Build (shared, server, worker, web)
+        run: npm run build
+      - name: Lint
+        run: npm run lint
+
+  dependencies:
+    name: Dependency security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: npm audit (fails on any known vulnerability)
+        run: npm audit
+
+  database:
+    name: Database schema
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: complianceos
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/complianceos
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply schema
+        run: npm run migrate
+      - name: Drop and re-apply (checks full_delete_schema.sql is complete)
+        run: npm run migrate -- reset
+      - name: Nothing left behind after delete
+        run: |
+          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/postgres/full_delete_schema.sql
+          left=$(psql "$DATABASE_URL" -Atc "SELECT count(*) FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relkind IN ('r','v','S')")
+          types=$(psql "$DATABASE_URL" -Atc "SELECT count(*) FROM pg_type t JOIN pg_namespace n ON n.oid = t.typnamespace WHERE n.nspname = 'public' AND t.typtype = 'e'")
+          echo "relations left: $left, enums left: $types"
+          test "$left" = "0" && test "$types" = "0"
+
+  api-smoke:
+    name: API boots against the schema
+    runs-on: ubuntu-latest
+    needs: build-and-lint
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: complianceos
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/complianceos
+      JWT_SECRET: ci-only-secret
+      ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
+      PORT: "4000"
+      AI_MOCK: "1"
+      STORAGE_MODE: local
+      STORAGE_LOCAL_DIR: ./.ci-storage
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build --workspace=shared
+      - run: npm run build --workspace=server
+      - run: npm run migrate
+      - name: Start server
+        run: |
+          node server/dist/index.js > server.log 2>&1 &
+          echo $! > server.pid
+      - name: Health check
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:4000/health; then exit 0; fi
+            sleep 1
+          done
+          echo "Server did not become healthy"; cat server.log; exit 1
+      - name: Unauthenticated requests are rejected
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:4000/ingestion/files)
+          echo "GET /ingestion/files without a token -> $code"
+          test "$code" = "401"
+      - name: Server log
+        if: always()
+        run: cat server.log
