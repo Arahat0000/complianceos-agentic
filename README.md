@@ -8,13 +8,11 @@
 
 ---
 
-<!--
-  DEMO VIDEO: drop the file at docs/assets/demo.mp4 (or paste a GitHub-hosted video URL) and uncomment:
+## Demo
 
-  <div align="center">
-    <video src="docs/assets/demo.mp4" controls muted width="860"></video>
-  </div>
--->
+[![ComplianceOS demo video](https://img.youtube.com/vi/izO__Emx9x0/hqdefault.jpg)](https://youtu.be/izO__Emx9x0)
+
+Watch the demo on [YouTube](https://youtu.be/izO__Emx9x0).
 
 ## The problem
 
